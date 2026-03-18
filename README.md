@@ -1,1 +1,38 @@
-IyBnbm9tZS1uZXdhcGktbW9uaXRvcgoKPiBHbm9tZSBTaGVsbCBFeHRlbnNpb24g77yg5a6e5pe25pi+56S6IE5ldyBBUEkgKE9uZUFQSSkg5L2Z6aKd77yM5a6e5pe25pi+56S6IEJ5dGVDYXQgJiBHUFQuZ2Ug5Lik5Liq5Y2V5L2N5L2Z6aKd5o6SCgojIyDlip/og73nrqHnkIYKCi0g5a6e5pe25pi+56S6IEJ5dGVDYXQgJiBHUFQuZ2Ug5Liq5Y2V5L2N5L2Z6aKd77yM5bm25o6S5pi+56S6CgotIOWQr+WKqOWumuS5iSBBUEkgS2V5IOWSjOWIt+aWsOmXtOmalAoKLSDmlK/mjIHliLfmlrDpl7TpmpTvvIjpu5HliY3IDMzMCDnp5LvvIkKCiMjIOWumuS5iQoKMS4g5YWB5Yqo5YaF5a65CgpgYGBiYXNoCmNkIH4vLmxvY2FsL3NoYXJlL2dub21lLXNoZWxsL2V4dGVuc2lvbnMvCmdpdCBjbG9uZSBodHRwczovL2dpdGh1Yi5jb20veHQxOTkweHQxOTkwL2dub21lLW5ld2FwaS1tb25pdG9yIGJ5dGVjYXQtYmFsYW5jZUBsb2NhbApgYGAKCjIuIOe7hOmXtCBzY2hlbWEKCmBgYGJhc2gKZ2xpYi1jb21waWxlLXNjaGVtYXMgfi8ubG9jYWwvc2hhcmUvZ25vbWUtc2hlbGwvZXh0ZW5zaW9ucy9ieXRlY2F0LWJhbGFuY2VAbG9jYWwvc2NoZW1hcy8KYGBgCgozLiDph43nva7lkK/liqgKCmBgYGJhc2gKZ25vbWUtZXh0ZW5zaW9ucyBlbmFibGUgYnl0ZWNhdC1iYWxhbmNlQGxvY2FsCmBgYAoKNC4g5omT5byA6K6+572u77yM5aGr5YaZ5L2g55qEIEFQSSBLZXkg5ZKMIEFQSSDlnLDlnYAKCiMjIOazqOWGjAoKLSBgZXh0ZW5zaW9uLmpzYCDkuK3nmoQgU0lURTJfS0VZIOaYr5Y+5Yqo56ym5b2T77yM5L2/55So5YmN6K+V5aGr5YaZ5L2g5Lqk5Yqo55qEIEFQSSBLZXkK
+# gnome-newapi-monitor
+
+A GNOME Shell extension to monitor multiple NewAPI-compatible service balances in real time.
+
+## Features
+
+- Monitor multiple NewAPI (OneAPI) sites simultaneously
+- Configurable API Key and API URL via settings UI
+- Auto-refresh with configurable interval (default 300s, min 30s)
+- Shows usage in panel bar and detailed breakdown in dropdown menu
+
+## Installation
+
+1. Clone into extensions directory
+
+```bash
+cd ~/.local/share/gnome-shell/extensions/
+git clone https://github.com/xt1990xt1990/gnome-newapi-monitor bytecat-balance@local
+```
+
+2. Compile schema
+
+```bash
+glib-compile-schemas ~/.local/share/gnome-shell/extensions/bytecat-balance@local/schemas/
+```
+
+3. Enable extension
+
+```bash
+gnome-extensions enable bytecat-balance@local
+```
+
+4. Open Settings, fill in your API Key and API URL for Site 1.
+
+## Notes
+
+- `SITE2_KEY` in `extension.js` is a placeholder — replace it with your own API key before use.
+- The extension delays the first request by 5 seconds after login to avoid blocking GNOME Shell input events.
