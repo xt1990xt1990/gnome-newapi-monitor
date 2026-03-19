@@ -1,38 +1,39 @@
-# gnome-newapi-monitor
+# Oneapi Balance Monitor
 
-A GNOME Shell extension to monitor multiple NewAPI-compatible service balances in real time.
+GNOME Shell 扩展，实时监控 OneAPI 余额和消耗情况。
 
-## Features
+## 功能
 
-- Monitor multiple NewAPI (OneAPI) sites simultaneously
-- Configurable API Key and API URL via settings UI
-- Auto-refresh with configurable interval (default 300s, min 30s)
-- Shows usage in panel bar and detailed breakdown in dropdown menu
+- 顶栏实时显示今日消耗 / 累计消耗
+- 支持两个 OneAPI 站点同时监控
+- 每日 0 点自动快照，记录消耗数据
+- Discord Webhook 每日消耗报告推送
+- 自定义刷新间隔（最低 30 秒）
 
-## Installation
-
-1. Clone into extensions directory
-
-```bash
-cd ~/.local/share/gnome-shell/extensions/
-git clone https://github.com/xt1990xt1990/gnome-newapi-monitor bytecat-balance@local
-```
-
-2. Compile schema
+## 安装
 
 ```bash
-glib-compile-schemas ~/.local/share/gnome-shell/extensions/bytecat-balance@local/schemas/
+# 复制到 GNOME Shell 扩展目录
+cp -r . ~/.local/share/gnome-shell/extensions/oneapi-balance@local
+
+# 编译 schema
+glib-compile-schemas schemas/
+
+# 重启 GNOME Shell（X11 下按 Alt+F2 输入 r，Wayland 需注销重登）
 ```
 
-3. Enable extension
+## 配置
 
-```bash
-gnome-extensions enable bytecat-balance@local
-```
+安装后在扩展设置中填写：
+- 站点名称、API 地址、API Key
+- 刷新间隔
+- 顶栏显示模式（今日消耗 / 累计消耗）
+- Discord Webhook URL（可选）
 
-4. Open Settings, fill in your API Key and API URL for Site 1.
+## 兼容性
 
-## Notes
+GNOME Shell 45 / 46 / 47
 
-- `SITE2_KEY` in `extension.js` is a placeholder — replace it with your own API key before use.
-- The extension delays the first request by 5 seconds after login to avoid blocking GNOME Shell input events.
+## License
+
+MIT

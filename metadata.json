@@ -1,0 +1,9 @@
+{
+  "name": "Oneapi Balance Monitor",
+  "description": "实时显示 Oneapi API 余额，支持自定义 API Key 和刷新间隔",
+  "uuid": "oneapi-balance@local",
+  "version": 1,
+  "shell-version": ["45", "46", "47"],
+  "settings-schema": "org.gnome.shell.extensions.oneapi-balance",
+  "gettext-domain": "oneapi-balance"
+}
