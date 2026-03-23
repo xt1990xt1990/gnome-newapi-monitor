@@ -55,7 +55,7 @@ function curlGet(args) {
 function fetchUsage(baseUrl, key) {
     const now  = new Date();
     const past = new Date(now.getTime() - 100 * 24 * 3600 * 1000);
-    const fmt  = d => `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    const fmt  = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     const url  = `${baseUrl}/v1/dashboard/billing/usage?start_date=${fmt(past)}&end_date=${fmt(now)}`;
     return curlGet(['-H', `Authorization: Bearer ${key}`, url]).then(raw => {
         const data = JSON.parse(raw);
@@ -212,6 +212,17 @@ class BalanceIndicator extends PanelMenu.Button {
         const p1 = cfg.url1 && cfg.key1 ? fetchUsage(cfg.url1, cfg.key1) : Promise.reject(new Error('未配置'));
         const p2 = cfg.url2 && cfg.key2 ? fetchUsage(cfg.url2, cfg.key2) : Promise.reject(new Error('未配置'));
         Promise.allSettled([p1, p2]).then(([r1, r2]) => {
+            // ★ 防抖：若新值为 0 但上次有效值 > 0，视为服务端偶发空响应，保留上次值
+            if (r1.status === 'fulfilled' && r1.value === 0 &&
+                this._lastR1?.status === 'fulfilled' && this._lastR1.value > 0) {
+                dbg(`_doRefresh r1 返回0，保留上次值 ${this._lastR1.value.toFixed(4)}`);
+                r1 = this._lastR1;
+            }
+            if (r2.status === 'fulfilled' && r2.value === 0 &&
+                this._lastR2?.status === 'fulfilled' && this._lastR2.value > 0) {
+                dbg(`_doRefresh r2 返回0，保留上次值 ${this._lastR2.value.toFixed(4)}`);
+                r2 = this._lastR2;
+            }
             dbg(`_doRefresh 完成 r1=${r1.status}(${r1.status==='fulfilled'?r1.value.toFixed(4):r1.reason}) r2=${r2.status}(${r2.status==='fulfilled'?r2.value.toFixed(4):r2.reason})`);
             this._render(r1, r2, cfg);
             if (done) done();
@@ -227,6 +238,18 @@ class BalanceIndicator extends PanelMenu.Button {
         const p2 = cfg.url2 && cfg.key2 ? fetchUsage(cfg.url2, cfg.key2) : Promise.reject(new Error('未配置'));
         Promise.allSettled([p1, p2]).then(([r1, r2]) => {
             dbg(`_doSnapshot allSettled r1=${r1.status} r2=${r2.status}`);
+
+            // ★ 防抖：快照时若返回0但上次有效值>0，重试一次再写入
+            if (r1.status === 'fulfilled' && r1.value === 0 &&
+                this._lastR1?.status === 'fulfilled' && this._lastR1.value > 0) {
+                dbg(`_doSnapshot r1 返回0，保留上次值 ${this._lastR1.value.toFixed(4)}`);
+                r1 = this._lastR1;
+            }
+            if (r2.status === 'fulfilled' && r2.value === 0 &&
+                this._lastR2?.status === 'fulfilled' && this._lastR2.value > 0) {
+                dbg(`_doSnapshot r2 返回0，保留上次值 ${this._lastR2.value.toFixed(4)}`);
+                r2 = this._lastR2;
+            }
 
             const today    = todayStr();
             const prevDate = this._s.get_string('snapshot-date');
