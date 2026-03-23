@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.oneapi-balance"
+          path="/org/gnome/shell/extensions/oneapi-balance/">
+
+    <key name="site1-name" type="s">
+      <default>''</default>
+      <summary>站点1 名称</summary>
+      <description>显示在顶栏和菜单中的站点名称</description>
+    </key>
+
+    <key name="site1-url" type="s">
+      <default>''</default>
+      <summary>站点1 API 地址</summary>
+      <description>OneAPI 服务器地址，例如 https://api.example.com</description>
+    </key>
+
+    <key name="site1-key" type="s">
+      <default>''</default>
+      <summary>站点1 API Key</summary>
+      <description>OneAPI 的 API Key（sk-xxxxx）</description>
+    </key>
+
+    <key name="site2-name" type="s">
+      <default>''</default>
+      <summary>站点2 名称</summary>
+      <description>显示在顶栏和菜单中的站点名称</description>
+    </key>
+
+    <key name="site2-url" type="s">
+      <default>''</default>
+      <summary>站点2 API 地址</summary>
+      <description>OneAPI 服务器地址，例如 https://api.example.com</description>
+    </key>
+
+    <key name="site2-key" type="s">
+      <default>''</default>
+      <summary>站点2 API Key</summary>
+      <description>OneAPI 的 API Key（sk-xxxxx）</description>
+    </key>
+
+    <key name="refresh-interval" type="i">
+      <default>300</default>
+      <summary>刷新间隔（秒）</summary>
+      <description>余额更新频率，单位秒，最小 30 秒</description>
+    </key>
+
+    <key name="show-icon" type="b">
+      <default>true</default>
+      <summary>显示图标</summary>
+      <description>是否在余额前显示图标</description>
+    </key>
+
+    <!-- 顶栏显示模式: balance=剩余余额 / today=今日消耗 / total=累计消耗 -->
+    <key name="panel-display-mode" type="s">
+      <default>'today'</default>
+      <summary>顶栏显示模式</summary>
+      <description>balance=剩余余额, today=今日消耗, total=累计消耗</description>
+    </key>
+
+    <!-- 每日快照：记录当天0点时的 totalUsage，用于计算今日消耗 -->
+    <key name="snapshot-date" type="s">
+      <default>''</default>
+      <summary>快照日期 (YYYY-MM-DD)</summary>
+      <description>上次记录每日快照的日期</description>
+    </key>
+
+    <key name="snapshot-site1" type="d">
+      <default>0.0</default>
+      <summary>站点1 当日快照用量</summary>
+      <description>当天0点时站点1的累计用量（美元）</description>
+    </key>
+
+    <key name="snapshot-site2" type="d">
+      <default>0.0</default>
+      <summary>站点2 当日快照用量</summary>
+      <description>当天0点时站点2的累计用量（美元）</description>
+    </key>
+
+    <!-- 累计消耗：跨日累加，永久保存 -->
+    <key name="total-consumed-site1" type="d">
+      <default>0.0</default>
+      <summary>站点1 累计消耗</summary>
+      <description>站点1 从开始记录至今的累计消耗（美元）</description>
+    </key>
+
+    <key name="total-consumed-site2" type="d">
+      <default>0.0</default>
+      <summary>站点2 累计消耗</summary>
+      <description>站点2 从开始记录至今的累计消耗（美元）</description>
+    </key>
+
+    <!-- 昨日消耗：0点快照时保存，用于 Webhook 对比 -->
+    <key name="yesterday-consumed-site1" type="d">
+      <default>-1.0</default>
+      <summary>站点1 昨日消耗</summary>
+      <description>昨天全天站点1的消耗金额（-1 表示无记录）</description>
+    </key>
+
+    <key name="yesterday-consumed-site2" type="d">
+      <default>-1.0</default>
+      <summary>站点2 昨日消耗</summary>
+      <description>昨天全天站点2的消耗金额（-1 表示无记录）</description>
+    </key>
+
+    <!-- Discord Webhook -->
+    <key name="webhook-enabled" type="b">
+      <default>false</default>
+      <summary>启用 Discord Webhook</summary>
+      <description>是否在每天0点发送消耗报告到 Discord</description>
+    </key>
+
+    <key name="webhook-url" type="s">
+      <default>''</default>
+      <summary>Discord Webhook URL</summary>
+      <description>Discord 频道的 Webhook 地址</description>
+    </key>
+
+  </schema>
+</schemalist>
